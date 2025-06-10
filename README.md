@@ -34,7 +34,7 @@ Agente autônomo com LangChain para análise de CSVs via linguagem natural.
 
 - Executar na primeira célula do main.ipynb o comando: !pip install -r requirements.txt
 
-✅ 4. Executar o notebook main_nfs.ipynb
+✅ 4. Executar o notebook main.ipynb
 
 
 * Extrair o conteúdo de 202401_NFs.zip para a pasta /data.
