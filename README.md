@@ -1,126 +1,109 @@
-# agente-csv-grupo302
+# 🧠 Agente Autônomo para Análise de Notas Fiscais em CSV — Grupo 302
 
-Agente autônomo com LangChain para análise de CSVs via linguagem natural.
+Este projeto tem como objetivo o desenvolvimento de um agente autônomo capaz de ler arquivos CSV contendo dados de notas fiscais, interpretar perguntas em linguagem natural e fornecer respostas automáticas e precisas, combinando inteligência artificial, busca vetorial e automação de processos.
 
-✅ 1. Criar o projeto no Deepnote
+## ⚙️  Tecnologias e Ferramentas Utilizadas
 
-* Acessar a url  https://deepnote.com 
+* [LangChain](https://python.langchain.com/) — Framework para construção de agentes inteligentes com LLMs.
 
-* Fazer o login.
+* [HuggingFace Embeddings](https://huggingface.co/sentence-transformers) — Geração de embeddings para representação vetorial dos documentos.
 
-* Clicar em  “New project”.
+* [FAISS](https://github.com/facebookresearch/faiss) — Biblioteca para busca vetorial eficiente.
 
-* Nomear o projeto: Agente_CSV_Grupo302.
+* [OpenRouter (GPT-3.5 Turbo)](https://openrouter.ai/) — LLM utilizado para compreensão e geração de respostas.
 
-* Selecionar o kernel Python 3.
+* [pandas](https://pandas.pydata.org/) — Manipulação e tratamento dos dados estruturados.
 
-* Aguardar o ambiente ser carregado.
+* [Deepnote](https://deepnote.com/) — Ambiente colaborativo de notebooks interativos (opcional para testes e prototipação).
 
-✅ 2. Upload da estrutura de arquivos
+## 📁 Estrutura do Projeto
 
-* Clicar na aba “Files” na lateral esquerda.
-
-* Fazer o upload dos seguintes arquivos:
-
-	-  main.ipynb
-
-	- Pasta /scripts/ agente.py
-
-	- Pasta /data/ 202401_NFs.zip
-
-	- requirements.txt
-
-✅ 3. Instalar as dependências
-
-- Executar na primeira célula do main.ipynb o comando: !pip install -r requirements.txt
-
-✅ 4. Executar o notebook main.ipynb
-
-
-* Extrair o conteúdo de 202401_NFs.zip para a pasta /data.
-
-* Ler os arquivos CSV com pandas.
-
-* Criar os agentes com LangChain.
-
-* Fazer perguntas em linguagem natural.
-
-💡 Certifique-se de substituir "sua-chave-aqui" pela sua chave de API da OpenAI (ou usar variável de ambiente no Deepnote).
-
-✅ 5. Usar variáveis de ambiente (para segurança)
-
-* Ocultar a chave da OpenAI:
-
-	- Clicar em Environment (ícone de engrenagem no menu lateral).
-
-	- Clicar em Environment variables.
-
-	Adicionar: OPENAI_API_KEY: sua-chave-aqui
-
-* Escrever no notebook:
-
-```Python
-import os
-OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
+```plaintext
+├── app.py                            # Script principal de execução do agente
+├── install.sh                        # Script de instalação das dependências
+├── requirements.txt                  # Dependências do projeto
+├── data/
+│   └── 202401_NFs.zip                # Arquivo compactado contendo os CSVs
+│   └── 202401_NFs/                   # Dados extraídos (cabeçalho, itens, dados consolidados)
+├── nf/
+│   ├── agent.py                      # Implementação do agente RAG
+│   ├── csv_loader.py                 # Carregamento dos arquivos CSV
+│   ├── formatter/
+│   │   ├── nota_fiscal_document_builder.py  # Formatação dos documentos para o RAG
+│   │   └── nota_fiscal_preprocessor.py      # Pré-processamento e consolidação dos dados
+│   ├── vectorstore.py                # Criação do índice vetorial com FAISS
+│   └── zip_extractor.py              # Extração do arquivo ZIP
 ```
 
-✅ 6. Colaboração no Deepnote
+## 🚀 Como Executar
 
-* Em Settings > Share, convidar os membros do grupo (limite de 5 membros).
+1. **Clone o repositório:**
 
-Lembre-se: apenas 3 membros podem editar simultaneamente na versão gratuita.
+```bash
+git clone https://github.com/ubiratantavares/agente-csv-grupo302.git
+cd agente-csv-grupo302
+```
 
-* Usar comentários nas células para revisões assíncronas.
+2. **Instale as dependências:**
 
-✅ 7. Estrutura da Solução do Projeto no Deepnote
+```bash
+bash install.sh
+```
 
-📁 Agente_CSV_Grupo302
-├── main.ipynb          ← Notebook principal para análise de NFs
-├── requirements.txt
-├── .env (não obrigatório)
-├── /scripts/
-│   └── agente.py
-├── /data/
-│   ├── 202401_NFs.zip
-│   └── ...
+3. **Execute o agente:**
 
-✅ 8. Estrutura da Solução do Projeto no GitHub
+Edite o arquivo `app.py` se necessário (por exemplo, forneça sua API Key do OpenRouter), depois:
 
-📁 Organização da pasta do projeto
+```bash
+python app.py
+```
 
-Agente_CSV_Grupo302/
-│
-├── README.md                     ← Apresentação do projeto
-├── requirements.txt             ← Bibliotecas necessárias
-├── .env                         ← (opcional) Chave da OpenAI
-├── main.ipynb                   ← Notebook com agente genérico
-├── /data/                       ← Arquivos CSV extraídos do .zip
-│   ├── 202401_NFs.zip│
-├── /scripts/                    ← Scripts auxiliares
-│   └── agente.py                ← Função de criação do agente LangChain
+O sistema irá:
 
-🔧 Lógica da solução (funcionamento do sistema)
+* Descompactar os dados (se ativado)
 
-Etapa	Descrição
+* Carregar e consolidar os CSVs
 
-1. Upload	O usuário envia o arquivo .zip com os CSVs.
+* Criar documentos formatados a partir dos dados
 
-2. Extração	O notebook extrai os arquivos na pasta /data.
+* Gerar o índice vetorial com embeddings
 
-3. Leitura	Os CSVs são lidos com pandas como DataFrames.
+* Inicializar o agente autônomo
 
-4. Criação de agente	O LangChain usa o create_pandas_dataframe_agent com o LLM configurado.
+* Executar perguntas de teste e apresentar as respostas
 
-5. Perguntas em linguagem natural	O usuário faz perguntas, e o agente responde com base nos dados.
+## 💡 Exemplo de Perguntas
 
-6. Visualização e validação	As respostas são exibidas e comparadas com o esperado.
+✔️  Quais empresas emitiram notas fiscais acima de R\$ 1.000.000,00?
 
-🔍 Dependências
+✔️  Qual a nota fiscal com maior valor emitido para o estado de SP?
 
-| Pacote          | Função principal                                       |
-|-----------------|--------------------------------------------------------|
-| `langchain`     | Framework para construção de agentes LLM.              |
-| `openai`        | Interface com modelos da OpenAI (ChatGPT, GPT-4).      |
-| `llama-index`   | Framework para indexação e consulta de dados com LLMs. |
-| `pandas`        | Leitura e manipulação de arquivos CSV.                 |
-| `python-dotenv` | Carregar variáveis de ambiente de um arquivo `.env`.   |
+✔️  Quais foram as três notas fiscais de maior valor emitidas em janeiro de 2024?
+
+✔️  Quantas notas fiscais tiveram como destinatário o Fundo Nacional de Desenvolvimento da Educação?
+
+✔️  Qual o valor total das notas fiscais destinadas ao estado de São Paulo (SP)?
+
+## 🛠️  Requisitos
+
+* Python 3.10 ou superior
+
+* API Key válida do [OpenRouter](https://openrouter.ai/)
+
+* Sistema operacional compatível com os pacotes Python do projeto
+
+## 👨‍💻 Equipe
+
+**Grupo 302 — Análise de CSV**
+
+| Nome     | E-mail                                                                    |
+| -------- | ------------------------------------------------------------------------- |
+| Ubiratan | [ust1973@gmail.com](mailto:ust1973@gmail.com)                             |
+| Sérgio   | [sergio@peq.coppe.ufrj.br](mailto:sergio@peq.coppe.ufrj.br)               |
+| João     | [copello13@gmail.com](mailto:copello13@gmail.com)                         |
+| Ricardo  | [ricardogoncalveslima3@gmail.com](mailto:ricardogoncalveslima3@gmail.com) |
+| Nathan   | [nathan.araujosantos@gmail.com](mailto:nathan.araujosantos@gmail.com)     |
+
+## 📄 Licença
+
+Este projeto é apenas para fins educacionais no contexto do curso de Agentes Autônomos do I2A2.
