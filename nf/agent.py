@@ -1,4 +1,4 @@
-from langchain_community.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.chains import RetrievalQA
 from langchain.agents import Tool,initialize_agent
 from langchain.agents.agent_types import AgentType
@@ -8,7 +8,7 @@ class RAGNotaFiscalAgent:
     def __init__(self, retriever, 
                        openai_api_key: str, 
                        openai_api_base: str = "https://openrouter.ai/api/v1",
-                       model: str = "openai/gpt-3.5-turbo",
+                       model: str = "mistralai/mistral-small-3.2-24b-instruct:free",
                        temperature: float = 0):
 
         self.llm = ChatOpenAI(api_key=openai_api_key,
